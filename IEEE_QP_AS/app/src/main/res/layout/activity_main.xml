@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
     <devlight.io.library.ArcProgressStackView
         android:id="@+id/apsv"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         app:apsv_animated="true"
-        app:apsv_animation_duration="1000"
-        app:apsv_dragged="true"
+        app:apsv_animation_duration="900"
+        app:apsv_dragged="false"
         app:apsv_draw_width="75%"
         app:apsv_indicator_orientation="vertical"
-        app:apsv_interpolator="@android:anim/bounce_interpolator"
+        app:apsv_interpolator="@android:anim/linear_interpolator"
         app:apsv_leveled="true"
         app:apsv_model_bg_enabled="true"
         app:apsv_model_offset="5dp"
@@ -36,77 +36,142 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <!--
-    <com.mikhaellopez.circularprogressbar.CircularProgressBar
-        android:id="@+id/circularProgressBar1"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="25dp"
+        app:layout_constraintEnd_toEndOf="@+id/midGuideLine"
+        app:layout_constraintTop_toTopOf="@+id/apsv"
+        android:orientation="vertical"
         android:layout_marginRight="25dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:cpb_background_progressbar_color="#b6bbd8"
-        app:cpb_background_progressbar_width="5dp"
-        app:cpb_progress_direction="to_right"
-        app:cpb_progressbar_color="#3f51b5"
-        app:cpb_progressbar_width="30dp"
-        app:cpb_progress="80"
-        app:cpb_round_border="false"
-        />
+        android:layout_marginTop="10dp"
+        android:gravity="end"
+        >
 
-    <com.mikhaellopez.circularprogressbar.CircularProgressBar
-        android:id="@+id/circularProgressBar2"
-        android:layout_width="match_parent"
+        <TextView
+        android:id="@+id/daysText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="85dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:cpb_background_progressbar_color="#b6bbd8"
-        app:cpb_background_progressbar_width="30dp"
-        app:cpb_progress_direction="to_right"
-        app:cpb_progressbar_color="#E6E91E63"
-        app:cpb_progressbar_width="20dp"
-        app:cpb_progress="50"
-        app:cpb_round_border="false"
-        />
-    -->
+        android:text="Day"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/midGuideLine"
+        app:layout_constraintTop_toTopOf="@+id/apsv" />
 
+        <TextView
+            android:id="@+id/hoursText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hour"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/midGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/daysText" />
+
+        <TextView
+            android:id="@+id/minutesText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Minute"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/midGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/hoursText" />
+
+        <TextView
+            android:id="@+id/secondsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Second"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/midGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/minutesText" /></LinearLayout>
+
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/midGuideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+
+    <TextView
+        android:id="@+id/dueDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/apsv"
+        android:layout_marginTop="50dp"
+        android:text="Due Time"
+        android:textSize="15dp"
+        />
+    <!--
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Button"
+        android:text="Start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/secondsEditText" />
+
+    <EditText
+        android:id="@+id/daysEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Days"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/apsv" />
 
-    <TextView
-        android:id="@+id/timeText"
+
+    <EditText
+        android:id="@+id/hoursEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="TextView"
+        android:ems="10"
+        android:hint="Hours"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/daysEditText" />
+
+    <EditText
+        android:id="@+id/minutesEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Minutes"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hoursEditText" />
+
+    <EditText
+        android:id="@+id/secondsEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Seconds"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/minutesEditText" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
-
-    <TextView
-        android:id="@+id/progressText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="TextView"
-        app:layout_constraintTop_toBottomOf="@+id/timeText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
+    -->
 </androidx.constraintlayout.widget.ConstraintLayout>
 
