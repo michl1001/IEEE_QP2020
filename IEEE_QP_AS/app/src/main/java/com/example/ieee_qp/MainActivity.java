@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         mArcProgressStackView = (ArcProgressStackView) findViewById(R.id.apsv);
         mArcProgressStackView.setShadowColor(Color.argb(20, 0, 0, 0));
-        mArcProgressStackView.setAnimationDuration(800);
+        mArcProgressStackView.setAnimationDuration(900);
         mArcProgressStackView.setSweepAngle(270);
 
         final int[] colors = new int[MODEL_COUNT];

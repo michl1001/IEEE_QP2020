@@ -23,7 +23,7 @@ public class AddTaskActivity extends AppCompatActivity {
     final int TASK_MINUTE = 4;
 
     Spinner yearSpinner, monthSpinner, daySpinner, hourSpinner, minuteSpinner;
-    TextView yearsTextView, monthsTextView, daysTextView, currentTimeTextView;
+    TextView yearsTextView, monthsTextView, daysTextView, currentTimeTextView, errorTextView;
     Button addTaskBtn;
     String text;
 
@@ -72,6 +72,7 @@ public class AddTaskActivity extends AppCompatActivity {
         monthsTextView = (TextView) findViewById(R.id.monthsTextView);
         daysTextView = (TextView) findViewById(R.id.daysTextView);
         currentTimeTextView = (TextView) findViewById(R.id.currentTimeTextView);
+        errorTextView = (TextView) findViewById(R.id.errorTextView);
 
         addTaskBtn = (Button) findViewById(R.id.addTaskBtn);
 
@@ -85,9 +86,12 @@ public class AddTaskActivity extends AppCompatActivity {
                 TimeManager.taskMinute = dateAndTime[TASK_MINUTE];
                 TimeManager.totalDayCount = (int) (TimeManager.getDurationInMillis()/(60*60*24*1000));
 
-                if (TimeManager.getDurationInMillis() >= 1000) {
+                if (TimeManager.getDurationInMillis() >= 30000) {
+                    errorTextView.setText("");
                     Intent add = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(add);
+                }else {
+                    errorTextView.setText("Needs to be at least 30 seconds from now");
                 }
 
 //                Calendar taskDate = Calendar.getInstance();
