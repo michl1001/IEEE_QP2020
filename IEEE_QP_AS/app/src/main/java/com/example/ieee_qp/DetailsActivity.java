@@ -9,10 +9,8 @@ import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -21,7 +19,7 @@ import java.util.ArrayList;
 import devlight.io.library.ArcProgressStackView;
 import devlight.io.library.ArcProgressStackView.Model;
 
-public class MainActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity {
 
     static int MODEL_COUNT = 4;
     static int DAYS_INDEX = 0;
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_details);
 
 //        Button btn = (Button) findViewById(R.id.button);
 //        daysEditText = (EditText) findViewById(R.id.daysEditText);
