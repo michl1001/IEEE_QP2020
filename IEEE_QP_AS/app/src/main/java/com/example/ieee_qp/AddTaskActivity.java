@@ -88,7 +88,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
                 if (TimeManager.getDurationInMillis() >= 30000) {
                     errorTextView.setText("");
-                    Intent add = new Intent(getApplicationContext(), DetailsActivity.class);
+                    Intent add = new Intent(AddTaskActivity.this, DetailsActivity.class);
                     startActivity(add);
                 }else {
                     errorTextView.setText("Needs to be at least 30 seconds from now");
