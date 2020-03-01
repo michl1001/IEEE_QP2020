@@ -16,4 +16,6 @@
         <item>December</item>
     </string-array>
 
+    <string name="channel_name">DeadlineRemind</string>
+    <string name="channel_description">DeadlineRemind notifications</string>
 </resources>
