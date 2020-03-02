@@ -37,7 +37,7 @@ public class ListTestActivity extends AppCompatActivity {
         } else
             taskList = TimeManager.taskList;
 
-        listAdapter = new ListAdapter(this, R.layout.progress_list_layout, taskList);
+        listAdapter = new ListAdapter(ListTestActivity.this, R.layout.progress_list_layout, taskList);
         progressListView.setAdapter(listAdapter);
 
         progressListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,6 +61,13 @@ public class ListTestActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
+                listAdapter = new ListAdapter(ListTestActivity.this, R.layout.progress_list_layout, taskList);
+                progressListView.setAdapter(listAdapter);
+                for(int i = 0; i < taskList.size(); i++) {
+                    if (taskList.get(i).getDurationInMillis() <= 0) {
+                        taskList.remove(i);
+                    }
+                }
                 listAdapter = new ListAdapter(ListTestActivity.this, R.layout.progress_list_layout, taskList);
                 progressListView.setAdapter(listAdapter);
             }
