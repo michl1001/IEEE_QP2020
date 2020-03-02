@@ -90,14 +90,27 @@ public class AddTaskActivity extends AppCompatActivity {
 
                 if (TimeManager.getDurationInMillis() >= 30000) {
                     /*
-                    errorTextView.setText("");
                     Intent add = new Intent(AddTaskActivity.this, DetailsActivity.class);
                     startActivity(add);
                     */
-                    Task task = new Task(taskEditText.getText().toString(), dateAndTime[TASK_YEAR], dateAndTime[TASK_MONTH],
+                    errorTextView.setText("");
+                    Task newTask = new Task(taskEditText.getText().toString(), dateAndTime[TASK_YEAR], dateAndTime[TASK_MONTH],
                             dateAndTime[TASK_DAY], dateAndTime[TASK_HOUR], dateAndTime[TASK_MINUTE],
                             (int) (TimeManager.getDurationInMillis()/(60*60*24*1000)));
-                    TimeManager.taskList.add(task);
+
+                    int taskCount = TimeManager.taskList.size();
+
+                    if (taskCount == 0)
+                        TimeManager.taskList.add(newTask);
+                    else
+                        for (int i = 0; i < taskCount; i++) {
+                            if (newTask.getDurationInMillis() <= TimeManager.taskList.get(i).getDurationInMillis()) {
+                                TimeManager.taskList.add(i, newTask);
+                                break;
+                            }else if(i == taskCount - 1)
+                                TimeManager.taskList.add(newTask);
+                        }
+
                     Intent backToList = new Intent(AddTaskActivity.this, ListTestActivity.class);
                     startActivity(backToList);
                     finish();

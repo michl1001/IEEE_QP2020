@@ -31,11 +31,6 @@ public class ListTestActivity extends AppCompatActivity {
 
         progressListView = (ListView) findViewById(R.id.progressListView);
 
-        Task MathHW = new Task("MathHW", "2020", "4", "20", "18", "10", 20);
-        Task EconHW = new Task("EconHW", "2021", "4", "1", "12", "10", 0);
-        Task CSHW = new Task("CSHW", "2022", "4", "0", "15", "10", 0);
-
-
         if(TimeManager.taskList == null) {
             taskList = new ArrayList<>();
             TimeManager.taskList = taskList;
@@ -60,7 +55,6 @@ public class ListTestActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent addTask = new Intent(getApplicationContext(), AddTaskActivity.class);
                 startActivity(addTask);
-                finish();
             }
         });
 

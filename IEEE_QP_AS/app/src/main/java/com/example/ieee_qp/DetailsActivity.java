@@ -1,6 +1,8 @@
 package com.example.ieee_qp;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Handler;
 
 import android.animation.Animator;
@@ -9,9 +11,12 @@ import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -66,6 +71,19 @@ public class DetailsActivity extends AppCompatActivity {
         secondsTextView = (TextView) findViewById(R.id.secondsText);
         dueDateTextView = (TextView) findViewById(R.id.dueDateTextView);
 
+        ImageButton removeTaskBtn = (ImageButton) findViewById(R.id.removeTaskBtn);
+
+        removeTaskBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                countDownTimer.onFinish();
+                countDownTimer.cancel();
+                TimeManager.taskList.remove(getIntent().getExtras().getInt("TASK_POSITION"));
+                Intent updateList = new Intent(DetailsActivity.this, ListTestActivity.class);
+                startActivity(updateList);
+            }
+        });
+
         mArcProgressStackView = (ArcProgressStackView) findViewById(R.id.apsv);
         mArcProgressStackView.setShadowColor(Color.argb(20, 0, 0, 0));
         mArcProgressStackView.setAnimationDuration(900);
@@ -79,10 +97,10 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         final ArrayList<ArcProgressStackView.Model> models = new ArrayList<>();
-        models.add(new Model("", 0, bgColors[0], colors[0]));
-        models.add(new Model("", 0, bgColors[1], colors[1]));
-        models.add(new Model("", 0, bgColors[2], colors[2]));
-        models.add(new Model("", 0, bgColors[3], colors[3]));
+        models.add(new Model("", 100, bgColors[0], colors[0]));
+        models.add(new Model("", 100, bgColors[1], colors[1]));
+        models.add(new Model("", 100, bgColors[2], colors[2]));
+        models.add(new Model("", 100, bgColors[3], colors[3]));
         mArcProgressStackView.setModels(models);
 
         thread = new Thread() {
@@ -110,13 +128,13 @@ public class DetailsActivity extends AppCompatActivity {
 
         updateTextView();
 
-        mArcProgressStackView.getModels().get(DAYS_INDEX).setProgress(100);
-        mArcProgressStackView.getModels().get(HOURS_INDEX).setProgress(100);
-        mArcProgressStackView.getModels().get(MINUTES_INDEX).setProgress(100);
-        mArcProgressStackView.getModels().get(SECONDS_INDEX).setProgress(100);
+        //mArcProgressStackView.getModels().get(DAYS_INDEX).setProgress(100);
+        //mArcProgressStackView.getModels().get(HOURS_INDEX).setProgress(100);
+        //mArcProgressStackView.getModels().get(MINUTES_INDEX).setProgress(100);
+        //mArcProgressStackView.getModels().get(SECONDS_INDEX).setProgress(100);
 
         mArcProgressStackView.setInterpolator(new AccelerateDecelerateInterpolator());
-        mArcProgressStackView.animateProgress();
+        //mArcProgressStackView.animateProgress();
         mArcProgressStackView.setInterpolator(new LinearInterpolator());
 
 
@@ -135,7 +153,7 @@ public class DetailsActivity extends AppCompatActivity {
                         mArcProgressStackView.getModels().get(SECONDS_INDEX).setProgress(0);
                     }
                 }
-            }, 1000);
+            }, 500);
     }
 
 

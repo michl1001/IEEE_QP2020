@@ -47,6 +47,8 @@ public class ListAdapter extends ArrayAdapter<Task> {
         taskNameTextView.setText(taskName);
         if(taskDay > 0)
             timeRemainingMessage = taskDay + " days, " + taskHour + " hours";
+        else if (taskHour > 0)
+            timeRemainingMessage = taskHour + " hours, " + taskMinute + " minutes";
         else
             timeRemainingMessage = taskMinute + " minutes, " + taskSeconds + " seconds";
 
