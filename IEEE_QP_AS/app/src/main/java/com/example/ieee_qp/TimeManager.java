@@ -1,9 +1,14 @@
 package com.example.ieee_qp;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class TimeManager {
+
+
+    static ArrayList<Task> taskList;
+
 
     static String taskYear;
     static String taskMonth;

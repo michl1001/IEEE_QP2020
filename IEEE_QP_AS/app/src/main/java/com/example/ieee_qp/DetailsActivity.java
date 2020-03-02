@@ -45,10 +45,14 @@ public class DetailsActivity extends AppCompatActivity {
 
     Thread thread;
 
+    Task currentTask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        currentTask = TimeManager.taskList.get(getIntent().getExtras().getInt("TASK_POSITION"));
 
 //        Button btn = (Button) findViewById(R.id.button);
 //        daysEditText = (EditText) findViewById(R.id.daysEditText);
@@ -97,10 +101,10 @@ public class DetailsActivity extends AppCompatActivity {
             }
         };
 
-        text = "Due Time: " + TimeManager.getDueDateString();
+        text = "Due Time: " + currentTask.getDueDateString();
         dueDateTextView.setText(text);
 
-        durationInMillis = TimeManager.getDurationInMillis();
+        durationInMillis = currentTask.getDurationInMillis();
 
         durationUpdate();
 
@@ -132,77 +136,6 @@ public class DetailsActivity extends AppCompatActivity {
                     }
                 }
             }, 1000);
-
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//                int days, hours, minutes, seconds;
-//
-//                if(!daysEditText.getText().toString().equals(""))
-//                    days = Integer.parseInt(daysEditText.getText().toString());
-//                else
-//                    days = 0;
-//
-//                if(!hoursEditText.getText().toString().equals(""))
-//                    hours = Integer.parseInt(hoursEditText.getText().toString());
-//                else
-//                    hours = 0;
-//
-//                if(!minutesEditText.getText().toString().equals(""))
-//                    minutes = Integer.parseInt(minutesEditText.getText().toString());
-//                else
-//                    minutes = 0;
-//
-//                if(!secondsEditText.getText().toString().equals(""))
-//                    seconds = Integer.parseInt(secondsEditText.getText().toString());
-//                else seconds = 0;
-//
-//                if (seconds > 60) {
-//                    time[3] = seconds % 60;
-//                    time[2] = seconds / 60;
-//                }else
-//                    time[3] = seconds;
-//
-//                if (minutes > 60) {
-//                    time[2] += minutes % 60;
-//                    time[1] = minutes / 60;
-//                }else
-//                    time[2] = minutes;
-//
-//                if (hours > 24) {
-//                    time[1] += hours % 24;
-//                    time[0] = hours / 24;
-//                }else
-//                    time[1] = hours;
-//
-//                time[0] += days;
-//                totalDays = time[0];
-//
-//                updateTextView();
-//
-//                updateProgresses();
-//
-//                mArcProgressStackView.setInterpolator(new AccelerateDecelerateInterpolator());
-//                mArcProgressStackView.animateProgress();
-//                mArcProgressStackView.setInterpolator(new LinearInterpolator());
-//
-//                final Handler handler = new Handler();
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        // Do something after 1s = 1000ms
-//                        if(countDownTimer != null)
-//                            countDownTimer.cancel();
-//
-//                            //countDown();
-//                    }
-//                }, 1000);
-//
-//            }
-//        });
-
     }
 
 
@@ -226,8 +159,8 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void updateProgresses() {
-        if(TimeManager.totalDayCount > 0)
-            mArcProgressStackView.getModels().get(0).setProgress(time[0]*100/TimeManager.totalDayCount);
+        if(currentTask.totalDayCount > 0)
+            mArcProgressStackView.getModels().get(0).setProgress(time[0]*100/currentTask.totalDayCount);
         else
             mArcProgressStackView.getModels().get(0).setProgress(0);
         mArcProgressStackView.getModels().get(1).setProgress(time[1]*100/24);
@@ -236,7 +169,7 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void durationUpdate() {
-        durationInMillis = TimeManager.getDurationInMillis();
+        durationInMillis = currentTask.getDurationInMillis();
         long temp = durationInMillis/1000;
         time[SECONDS_INDEX] = (int)(temp%60);
         temp = temp/60;

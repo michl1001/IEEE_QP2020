@@ -8,9 +8,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.sql.Time;
 import java.util.Calendar;
 
 public class AddTaskActivity extends AppCompatActivity {
@@ -22,8 +24,9 @@ public class AddTaskActivity extends AppCompatActivity {
     final int TASK_HOUR = 3;
     final int TASK_MINUTE = 4;
 
+    EditText taskEditText;
     Spinner yearSpinner, monthSpinner, daySpinner, hourSpinner, minuteSpinner;
-    TextView yearsTextView, monthsTextView, daysTextView, currentTimeTextView, errorTextView;
+    TextView errorTextView;
     Button addTaskBtn;
     String text;
 
@@ -61,17 +64,14 @@ public class AddTaskActivity extends AppCompatActivity {
                 minutes[i] = i + "";
         }
 
+        taskEditText = findViewById(R.id.taskEditText);
+
         yearSpinner = findViewById(R.id.yearSpinner);
         monthSpinner = findViewById(R.id.monthSpinner);
         daySpinner = findViewById(R.id.daySpinner);
         hourSpinner = findViewById(R.id.hourSpinner);
         minuteSpinner = findViewById(R.id.minuteSpinner);
 
-
-        yearsTextView = (TextView) findViewById(R.id.yearsTextView);
-        monthsTextView = (TextView) findViewById(R.id.monthsTextView);
-        daysTextView = (TextView) findViewById(R.id.daysTextView);
-        currentTimeTextView = (TextView) findViewById(R.id.currentTimeTextView);
         errorTextView = (TextView) findViewById(R.id.errorTextView);
 
         addTaskBtn = (Button) findViewById(R.id.addTaskBtn);
@@ -79,6 +79,7 @@ public class AddTaskActivity extends AppCompatActivity {
         addTaskBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 TimeManager.taskYear = dateAndTime[TASK_YEAR];
                 TimeManager.taskMonth = dateAndTime[TASK_MONTH];
                 TimeManager.taskDay = dateAndTime[TASK_DAY];
@@ -86,27 +87,24 @@ public class AddTaskActivity extends AppCompatActivity {
                 TimeManager.taskMinute = dateAndTime[TASK_MINUTE];
                 TimeManager.totalDayCount = (int) (TimeManager.getDurationInMillis()/(60*60*24*1000));
 
+
                 if (TimeManager.getDurationInMillis() >= 30000) {
+                    /*
                     errorTextView.setText("");
                     Intent add = new Intent(AddTaskActivity.this, DetailsActivity.class);
                     startActivity(add);
+                    */
+                    Task task = new Task(taskEditText.getText().toString(), dateAndTime[TASK_YEAR], dateAndTime[TASK_MONTH],
+                            dateAndTime[TASK_DAY], dateAndTime[TASK_HOUR], dateAndTime[TASK_MINUTE],
+                            (int) (TimeManager.getDurationInMillis()/(60*60*24*1000)));
+                    TimeManager.taskList.add(task);
+                    Intent backToList = new Intent(AddTaskActivity.this, ListTestActivity.class);
+                    startActivity(backToList);
+                    finish();
+
                 }else {
                     errorTextView.setText("Needs to be at least 30 seconds from now");
                 }
-
-//                Calendar taskDate = Calendar.getInstance();
-//                Calendar currentDate = Calendar.getInstance();
-//                taskDate.set(Integer.parseInt(dateAndTime[TASK_YEAR]),Integer.parseInt(dateAndTime[TASK_MONTH]),
-//                        Integer.parseInt(dateAndTime[TASK_DAY]),
-//                        Integer.parseInt(dateAndTime[TASK_HOUR]),Integer.parseInt(dateAndTime[TASK_MINUTE]),0);
-//
-//                yearsTextView.setText(currentDate.getTime().toString());
-//                monthsTextView.setText(taskDate.getTime().toString());
-//
-//                text = TimeManager.getDurationInMillis()+"";
-//
-//                daysTextView.setText(text);
-
 
             }
         });
@@ -120,7 +118,6 @@ public class AddTaskActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 dateAndTime[TASK_YEAR] = years[position];
-                yearsTextView.setText(dateAndTime[TASK_YEAR]);
 
                 if(dateAndTime[TASK_YEAR] != null && dateAndTime[TASK_MONTH] != null)
                     generateDaysArray();
@@ -136,7 +133,6 @@ public class AddTaskActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 dateAndTime[TASK_MONTH] = (position) + "";
-                monthsTextView.setText(dateAndTime[TASK_MONTH]);
 
                 if(dateAndTime[TASK_YEAR] != null && dateAndTime[TASK_MONTH] != null)
                     generateDaysArray();
@@ -155,7 +151,6 @@ public class AddTaskActivity extends AppCompatActivity {
                 dateAndTime[TASK_HOUR] = hours[position];
                 if(dateAndTime[TASK_MINUTE] != null) {
                     text = dateAndTime[TASK_HOUR] + " : " + dateAndTime[TASK_MINUTE];
-                    currentTimeTextView.setText(text);
                 }
             }
 
@@ -170,7 +165,6 @@ public class AddTaskActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 dateAndTime[TASK_MINUTE] = minutes[position];
                 text = dateAndTime[TASK_HOUR] + " : " + dateAndTime[TASK_MINUTE];
-                currentTimeTextView.setText(text);
             }
 
             @Override
@@ -198,7 +192,6 @@ public class AddTaskActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 dateAndTime[TASK_DAY] = days[position];
-                daysTextView.setText(dateAndTime[TASK_DAY]);
             }
 
             @Override
