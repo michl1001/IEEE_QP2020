@@ -1,5 +1,6 @@
 package com.example.ieee_qp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,6 +12,8 @@ import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
@@ -53,6 +56,19 @@ public class DetailsActivity extends AppCompatActivity {
     Task currentTask;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_task_options, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.set_done) {
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
@@ -79,8 +95,10 @@ public class DetailsActivity extends AppCompatActivity {
                 countDownTimer.onFinish();
                 countDownTimer.cancel();
                 TimeManager.taskList.remove(getIntent().getExtras().getInt("TASK_POSITION"));
-                Intent updateList = new Intent(DetailsActivity.this, ListTestActivity.class);
-                startActivity(updateList);
+                ListTestActivity listTestActivity = ListTestActivity.getInstance();
+                if (listTestActivity != null)
+                    listTestActivity.updateList();
+                finish();
             }
         });
 
@@ -239,7 +257,6 @@ public class DetailsActivity extends AppCompatActivity {
 
         return valueAnimator;
     }
-
 
     public void onStop(){
         countDownTimer.cancel();

@@ -1,11 +1,14 @@
 package com.example.ieee_qp;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,11 +26,13 @@ public class ListTestActivity extends AppCompatActivity {
     private ArrayList<Task> taskList;
     private ListView progressListView;
     CountDownTimer countDownTimer;
+    static ListTestActivity instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_test);
+        instance = this;
 
         progressListView = (ListView) findViewById(R.id.progressListView);
 
@@ -37,8 +42,7 @@ public class ListTestActivity extends AppCompatActivity {
         } else
             taskList = TimeManager.taskList;
 
-        listAdapter = new ListAdapter(ListTestActivity.this, R.layout.progress_list_layout, taskList);
-        progressListView.setAdapter(listAdapter);
+        updateList();
 
         progressListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -49,27 +53,15 @@ public class ListTestActivity extends AppCompatActivity {
             }
         });
 
-        Button addTaskButton = findViewById(R.id.addTaskButton);
-        addTaskButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent addTask = new Intent(getApplicationContext(), AddTaskActivity.class);
-                startActivity(addTask);
-            }
-        });
-
         countDownTimer = new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                listAdapter = new ListAdapter(ListTestActivity.this, R.layout.progress_list_layout, taskList);
-                progressListView.setAdapter(listAdapter);
                 for(int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getDurationInMillis() <= 0) {
                         taskList.remove(i);
                     }
                 }
-                listAdapter = new ListAdapter(ListTestActivity.this, R.layout.progress_list_layout, taskList);
-                progressListView.setAdapter(listAdapter);
+                updateList();
             }
 
             public void onFinish() {
@@ -77,5 +69,30 @@ public class ListTestActivity extends AppCompatActivity {
             }
 
         }.start();
+    }
+
+    public void updateList() {
+        listAdapter = new ListAdapter(ListTestActivity.this, R.layout.progress_list_layout, taskList);
+        progressListView.setAdapter(listAdapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add_task, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_add_task) {
+            Intent addTask = new Intent(getApplicationContext(), AddTaskActivity.class);
+            startActivity(addTask);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public static ListTestActivity getInstance() {
+        return instance;
     }
 }

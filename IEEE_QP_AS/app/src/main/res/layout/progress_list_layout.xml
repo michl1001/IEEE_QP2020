@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants">
 
@@ -7,6 +8,7 @@
         android:id="@+id/taskNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
         android:text="Task Name"
         android:textSize="25dp"
         android:layout_marginLeft="25dp"
@@ -18,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="remaining time"
+        android:textColor="@android:color/black"
         android:textSize="18dp"
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/taskNameTextView"
@@ -26,11 +29,25 @@
 
     <ProgressBar
         android:id="@+id/horizontalProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="20dp"
+        android:layout_below="@+id/taskNameTextView"
+        android:progress="10"
+        android:progressDrawable="@drawable/progress_rounded_corner"/>
+
+    <!--
+    <ProgressBar
+        android:id="@+id/horizontalProgressBar"
         style="?android:progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_below="@+id/taskNameTextView"
         android:padding="25dp"
         android:progress="80" />
-
+        -->
 </RelativeLayout>

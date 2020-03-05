@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:text="Day"
             android:textSize="20dp"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="@+id/midGuideLine"
             app:layout_constraintTop_toTopOf="@+id/apsv" />
 
@@ -61,6 +62,7 @@
             android:layout_height="wrap_content"
             android:text="Hour"
             android:textSize="20dp"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="@+id/midGuideLine"
             app:layout_constraintTop_toBottomOf="@+id/daysText" />
 
@@ -70,6 +72,7 @@
             android:layout_height="wrap_content"
             android:text="Minute"
             android:textSize="20dp"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="@+id/midGuideLine"
             app:layout_constraintTop_toBottomOf="@+id/hoursText" />
 
@@ -79,6 +82,7 @@
             android:layout_height="wrap_content"
             android:text="Second"
             android:textSize="20dp"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="@+id/midGuideLine"
             app:layout_constraintTop_toBottomOf="@+id/minutesText" />
     </LinearLayout>

@@ -89,34 +89,37 @@ public class AddTaskActivity extends AppCompatActivity {
 
 
                 if (TimeManager.getDurationInMillis() >= 30000) {
-                    /*
-                    Intent add = new Intent(AddTaskActivity.this, DetailsActivity.class);
-                    startActivity(add);
-                    */
-                    errorTextView.setText("");
-                    Task newTask = new Task(taskEditText.getText().toString(), dateAndTime[TASK_YEAR], dateAndTime[TASK_MONTH],
-                            dateAndTime[TASK_DAY], dateAndTime[TASK_HOUR], dateAndTime[TASK_MINUTE],
-                            (int) (TimeManager.getDurationInMillis()/(60*60*24*1000)));
+                    if (!taskEditText.getText().toString().equals("")) {
+                        /*
+                        Intent add = new Intent(AddTaskActivity.this, DetailsActivity.class);
+                        startActivity(add);
+                        */
+                        errorTextView.setText("");
+                        Task newTask = new Task(taskEditText.getText().toString(), dateAndTime[TASK_YEAR], dateAndTime[TASK_MONTH],
+                                dateAndTime[TASK_DAY], dateAndTime[TASK_HOUR], dateAndTime[TASK_MINUTE],
+                                (int) (TimeManager.getDurationInMillis() / (60 * 60 * 24 * 1000)));
 
-                    int taskCount = TimeManager.taskList.size();
+                        int taskCount = TimeManager.taskList.size();
 
-                    if (taskCount == 0)
-                        TimeManager.taskList.add(newTask);
-                    else
-                        for (int i = 0; i < taskCount; i++) {
-                            if (newTask.getDurationInMillis() <= TimeManager.taskList.get(i).getDurationInMillis()) {
-                                TimeManager.taskList.add(i, newTask);
-                                break;
-                            }else if(i == taskCount - 1)
-                                TimeManager.taskList.add(newTask);
-                        }
+                        if (taskCount == 0)
+                            TimeManager.taskList.add(newTask);
+                        else
+                            for (int i = 0; i < taskCount; i++) {
+                                if (newTask.getDurationInMillis() <= TimeManager.taskList.get(i).getDurationInMillis()) {
+                                    TimeManager.taskList.add(i, newTask);
+                                    break;
+                                } else if (i == taskCount - 1)
+                                    TimeManager.taskList.add(newTask);
+                            }
 
-                    Intent backToList = new Intent(AddTaskActivity.this, ListTestActivity.class);
-                    startActivity(backToList);
-                    finish();
-
+                        ListTestActivity listTestActivity = ListTestActivity.getInstance();
+                        if (listTestActivity != null)
+                            listTestActivity.updateList();
+                        finish();
+                    }else
+                        errorTextView.setText("Please name your task.");
                 }else {
-                    errorTextView.setText("Needs to be at least 30 seconds from now");
+                    errorTextView.setText("Needs to be at least 30 seconds from now.");
                 }
 
             }
