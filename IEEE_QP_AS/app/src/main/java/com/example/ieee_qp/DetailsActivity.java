@@ -91,11 +91,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         currentTask = TimeManager.taskList.get(getIntent().getExtras().getInt("TASK_POSITION"));
 
-//        Button btn = (Button) findViewById(R.id.button);
-//        daysEditText = (EditText) findViewById(R.id.daysEditText);
-//        hoursEditText = (EditText) findViewById(R.id.hoursEditText);
-//        minutesEditText = (EditText) findViewById(R.id.minutesEditText);
-//        secondsEditText = (EditText) findViewById(R.id.secondsEditText);
+        getSupportActionBar().setTitle(currentTask.taskName);
 
         daysTextView = (TextView) findViewById(R.id.daysText);
         hoursTextView = (TextView) findViewById(R.id.hoursText);

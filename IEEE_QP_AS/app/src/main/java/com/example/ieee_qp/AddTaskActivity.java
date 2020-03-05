@@ -41,6 +41,8 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
+        getSupportActionBar().setTitle("New Task");
+
         years = new String[10];
         hours = new String[24];
         minutes = new String[60];

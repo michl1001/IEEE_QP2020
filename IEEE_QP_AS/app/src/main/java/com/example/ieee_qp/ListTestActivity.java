@@ -34,6 +34,7 @@ public class ListTestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_test);
         instance = this;
 
+        getSupportActionBar().setTitle("All Tasks");
         progressListView = (ListView) findViewById(R.id.progressListView);
 
         if(TimeManager.taskList == null) {
