@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import devlight.io.library.ArcProgressStackView;
 import devlight.io.library.ArcProgressStackView.Model;
@@ -64,6 +65,21 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.set_done) {
+            countDownTimer.onFinish();
+            countDownTimer.cancel();
+            TimeManager.taskList.remove(getIntent().getExtras().getInt("TASK_POSITION"));
+            ListTestActivity listTestActivity = ListTestActivity.getInstance();
+            if (listTestActivity != null)
+                listTestActivity.updateList();
+            finish();
+        }else if (item.getItemId() == R.id.remove_task) {
+            countDownTimer.onFinish();
+            countDownTimer.cancel();
+            TimeManager.taskList.remove(getIntent().getExtras().getInt("TASK_POSITION"));
+            ListTestActivity listTestActivity = ListTestActivity.getInstance();
+            if (listTestActivity != null)
+                listTestActivity.updateList();
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -188,7 +204,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                thread.interrupt();
+                //thread.interrupt();
             }
 
         }.start();
