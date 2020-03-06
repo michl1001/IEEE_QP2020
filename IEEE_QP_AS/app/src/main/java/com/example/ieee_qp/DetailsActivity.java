@@ -1,8 +1,10 @@
 package com.example.ieee_qp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 
@@ -71,7 +73,23 @@ public class DetailsActivity extends AppCompatActivity {
             ListTestActivity listTestActivity = ListTestActivity.getInstance();
             if (listTestActivity != null)
                 listTestActivity.updateList();
-            finish();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(DetailsActivity.this);
+
+            builder.setCancelable(false);
+            builder.setTitle("Task Due!");
+            String message = currentTask.taskName + " is due.";
+            builder.setMessage(message);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    finish();
+                }
+            });
+
+            builder.show();
         }else if (item.getItemId() == R.id.remove_task) {
             countDownTimer.onFinish();
             countDownTimer.cancel();
