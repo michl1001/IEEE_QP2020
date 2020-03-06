@@ -9,16 +9,18 @@ public class Task {
     String taskDay;
     String taskHour;
     String taskMinute;
+    String taskSecond;
     long fullDurationInMillis;
     int totalDayCount;
 
-    public Task(String taskName, String taskYear, String taskMonth, String taskDay, String taskHour, String taskMinute, int totalDayCount) {
+    public Task(String taskName, String taskYear, String taskMonth, String taskDay, String taskHour, String taskMinute, String taskSecond, int totalDayCount) {
         this.taskName = taskName;
         this.taskYear = taskYear;
         this.taskMonth = taskMonth;
         this.taskDay = taskDay;
         this.taskHour = taskHour;
         this.taskMinute = taskMinute;
+        this.taskSecond = taskSecond;
         this.totalDayCount = totalDayCount;
         fullDurationInMillis = getDurationInMillis();
     }
@@ -27,14 +29,14 @@ public class Task {
         Calendar taskDate = Calendar.getInstance();
         Calendar currentDate = Calendar.getInstance();
         taskDate.set(Integer.parseInt(taskYear),Integer.parseInt(taskMonth),Integer.parseInt(taskDay),
-                Integer.parseInt(taskHour),Integer.parseInt(taskMinute), 0);
+                Integer.parseInt(taskHour),Integer.parseInt(taskMinute), Integer.parseInt(taskSecond));
         return taskDate.getTimeInMillis()-currentDate.getTimeInMillis();
     }
 
     public String getDueDateString() {
         Calendar taskDate = Calendar.getInstance();
         taskDate.set(Integer.parseInt(taskYear),Integer.parseInt(taskMonth),Integer.parseInt(taskDay),
-                Integer.parseInt(taskHour),Integer.parseInt(taskMinute), 0);
+                Integer.parseInt(taskHour),Integer.parseInt(taskMinute), Integer.parseInt(taskSecond));
         return taskDate.getTime().toString();
     }
 
@@ -96,5 +98,13 @@ public class Task {
 
     public void setTotalDayCount(int totalDayCount) {
         this.totalDayCount = totalDayCount;
+    }
+
+    public String getTaskSecond() {
+        return taskSecond;
+    }
+
+    public void setTaskSecond(String taskSecond) {
+        this.taskSecond = taskSecond;
     }
 }

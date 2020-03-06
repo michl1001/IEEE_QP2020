@@ -3,7 +3,11 @@ package com.example.ieee_qp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
@@ -58,6 +62,8 @@ public class DetailsActivity extends AppCompatActivity {
 
     Task currentTask;
 
+    static DetailsActivity instance;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_task_options, menu);
@@ -67,29 +73,13 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.set_done) {
-            countDownTimer.onFinish();
-            countDownTimer.cancel();
-            TimeManager.taskList.remove(getIntent().getExtras().getInt("TASK_POSITION"));
-            ListTestActivity listTestActivity = ListTestActivity.getInstance();
-            if (listTestActivity != null)
-                listTestActivity.updateList();
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(DetailsActivity.this);
-
-            builder.setCancelable(false);
-            builder.setTitle("Task Due!");
-            String message = currentTask.taskName + " is due.";
-            builder.setMessage(message);
-
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    finish();
-                }
-            });
-
-            builder.show();
+            Calendar currentTime = Calendar.getInstance();
+            currentTask.taskYear = ""+currentTime.get(Calendar.YEAR);
+            currentTask.taskMonth = ""+currentTime.get(Calendar.MONTH);
+            currentTask.taskDay = ""+(currentTime.get(Calendar.DAY_OF_MONTH));
+            currentTask.taskHour = ""+currentTime.get(Calendar.HOUR_OF_DAY);
+            currentTask.taskMinute= ""+(currentTime.get(Calendar.MINUTE));
+            currentTask.taskSecond= ""+(currentTime.get(Calendar.SECOND)+2);
         }else if (item.getItemId() == R.id.remove_task) {
             countDownTimer.onFinish();
             countDownTimer.cancel();
@@ -98,6 +88,15 @@ public class DetailsActivity extends AppCompatActivity {
             if (listTestActivity != null)
                 listTestActivity.updateList();
             finish();
+        } else if (item.getItemId() == R.id.notify_one_day) {
+            Calendar currentTime = Calendar.getInstance();
+            currentTask.taskYear = ""+currentTime.get(Calendar.YEAR);
+            currentTask.taskMonth = ""+currentTime.get(Calendar.MONTH);
+            currentTask.taskDay = ""+(currentTime.get(Calendar.DAY_OF_MONTH)+1);
+            currentTask.taskHour = ""+currentTime.get(Calendar.HOUR_OF_DAY);
+            currentTask.taskMinute= ""+(currentTime.get(Calendar.MINUTE));
+            currentTask.taskSecond= ""+(currentTime.get(Calendar.SECOND)+2);
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -106,6 +105,8 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        instance = this;
 
         currentTask = TimeManager.taskList.get(getIntent().getExtras().getInt("TASK_POSITION"));
 
@@ -212,6 +213,7 @@ public class DetailsActivity extends AppCompatActivity {
                 durationUpdate();
                 updateTextView();
                 updateProgresses();
+                dueDateTextView.setText(currentTask.getDueDateString());
                 if(thread.isInterrupted())
                     thread.start();
                 thread.run();
@@ -292,6 +294,29 @@ public class DetailsActivity extends AppCompatActivity {
         countDownTimer.cancel();
         thread.interrupt();
         super.onStop();
+    }
+
+    public void notify(String taskName, String time) {
+        Intent intent = new Intent(DetailsActivity.this, DetailsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(DetailsActivity.this, 0, intent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(DetailsActivity.this, "0")
+                .setSmallIcon(R.drawable.ic_access_alarms_black_24dp)
+                .setContentTitle("Reminder")
+                .setContentText(taskName + " is due in " + time + ".")
+                .setContentIntent(pendingIntent)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_MAX);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(DetailsActivity.this);
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(0, builder.build());
+    }
+
+    public static DetailsActivity getInstance() {
+        return instance;
     }
 
 }

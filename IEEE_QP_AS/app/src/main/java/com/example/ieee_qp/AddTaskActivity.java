@@ -98,7 +98,7 @@ public class AddTaskActivity extends AppCompatActivity {
                         */
                         errorTextView.setText("");
                         Task newTask = new Task(taskEditText.getText().toString(), dateAndTime[TASK_YEAR], dateAndTime[TASK_MONTH],
-                                dateAndTime[TASK_DAY], dateAndTime[TASK_HOUR], dateAndTime[TASK_MINUTE],
+                                dateAndTime[TASK_DAY], dateAndTime[TASK_HOUR], dateAndTime[TASK_MINUTE], "0",
                                 (int) (TimeManager.getDurationInMillis() / (60 * 60 * 24 * 1000)));
 
                         int taskCount = TimeManager.taskList.size();
